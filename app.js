@@ -18,31 +18,28 @@ const notification = document.getElementById('notification')
 const letterContainer = document.getElementById('letter-container')
 const showBtn = document.getElementById('show-btn')
 
-let hiddenWord = []
+let hiddenWord = ["H","E","L","L","O"]
 let userWord = []
 let rowCount = 0
 let letterCount = 0
 
-// // GET A 5 LETTER WORD
+// GET A 5 LETTER WORD
 
 const fetchWord = function () {
   showBtn.innerText = `Please wait. Fetching the word ...`
-  fetch("https://random-words-api.vercel.app/word")
+  fetch("https://random-word-api.herokuapp.com/word?length=5")
   .then(res => res.json())
   .then(data => {
-    if (data[0].word.length === 5) {
-      hiddenWord = Array.from(data[0].word.toUpperCase())
-      showBtn.innerText = "Show solution"
-      showBtn.addEventListener('click', () => {
-        showBtn.innerText = hiddenWord.join('')
-      })
-        } else {
-          fetchWord()
-        }
-      })
-    .catch(err => {
-      showBtn.innerHTML = err + `<br> Please refresh`
-    }) 
+    console.log(data)
+    hiddenWord = Array.from(data[0].toUpperCase())
+    showBtn.innerText = "Show solution"
+    showBtn.addEventListener('click', () => {
+      showBtn.innerText = hiddenWord.join('')
+    })
+    })
+  .catch(err => {
+    showBtn.innerHTML = err + `<br> Please refresh`
+  }) 
 }
 
 fetchWord()
